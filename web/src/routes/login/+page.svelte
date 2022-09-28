@@ -4,4 +4,4 @@
   export let data: PageData
 </script>
 
-<p>Login with code {data.code}</p>
+<p>Login with code {data.auth.access_token}</p>
