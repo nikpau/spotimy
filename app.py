@@ -1,32 +1,14 @@
-from collections import namedtuple
-from dataclasses import dataclass
-from typing import List, Sequence, TypeVar
+from typing import List, Sequence
 
 import dotenv
 import spotipy
 from spotipy import Spotify
+from _types import (
+    AggregatedPlaylists, SimpleTrack,
+    Track, TopArtist, TracksFromPlaylist
+)
 
 dotenv.load_dotenv()
-
-TrackID = TypeVar("TrackID",bound=str)
-
-@dataclass(frozen=True)
-class SimpleTrack:
-    title: str
-    artist: str
-    
-@dataclass(frozen=True)
-class Track:
-    title: str
-    artists: str | Sequence[str]  
-    bpm: int
-    track_id: TrackID
-    
-    
-TopArtist = namedtuple("TopArtist",["name","count"])
-
-
-# Set scope to
     
 def list_liked_songs(sp: Spotify) -> List[SimpleTrack]:
     tracks = []
@@ -43,25 +25,25 @@ def list_liked_songs(sp: Spotify) -> List[SimpleTrack]:
 
 def list_all_songs(sp: Spotify) -> List[Track]:
     out = []
-    playlists = sp.current_user_playlists()
+    playlists = AggregatedPlaylists(sp.current_user_playlists())
     while playlists:
-        for playlist in playlists["items"]:
-            tracks = sp.playlist_items(playlist["id"],limit=100)
+        for playlist_id in playlists.ids:
+            tracks = TracksFromPlaylist(
+                sp.playlist_items(playlist_id,limit=100)
+            )
             while tracks:
-                _track_ids = [track["track"]["id"] for track in tracks["items"]]
-                _track_ids = [id for id in _track_ids if id is not None]
                 # TODO check if order is preserved
-                _track_features = sp.audio_features(_track_ids)
-                _bpms = [feature["tempo"] if feature is not None else -1 for feature in _track_features]
-                _artists = [
-                    [artist["name"] for artist in track["track"]["artists"]] 
-                    for track in tracks["items"]
-                ]
-                _titles = [track["track"]["name"] for track in tracks["items"]]
-                for t,a,bpm,id in zip(_titles,_artists,_bpms,_track_ids):
+                track_features = sp.audio_features(tracks.ids)
+                bpms = []
+                for feature in track_features:
+                    bpms.append(feature["tempo"] if feature is not None else -1)
+                for t,a,bpm,id in zip(tracks.titles,tracks.artists,bpms,tracks.ids):
                     out.append(Track(t,a,bpm,id))
-                tracks = sp.next(tracks) if tracks["next"] else None
-        playlists = sp.next(playlists) if playlists["next"] else None
+                tracks = TracksFromPlaylist(sp.next(tracks.payload)) if tracks.next else None
+        if playlists.next is not None:
+            playlists = AggregatedPlaylists(sp.next(playlists.payload))
+        else:
+            playlists = None
     return out
         
 

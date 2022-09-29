@@ -17,3 +17,5 @@ def t_summary_plot(sp: Spotify)->BinaryIO:
 
 def t_list_all_songs(sp: Spotify) -> List[app.Track]:
     print(app.list_all_songs(sp))
+
+t_list_all_songs(sp)
