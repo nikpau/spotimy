@@ -16,6 +16,7 @@
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@types/cookie": "^0.5.1",
+    "@types/luxon": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "eslint": "^8.16.0",
@@ -32,6 +33,10 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource/fira-mono": "^4.5.0"
+    "@fontsource/fira-mono": "^4.5.0",
+    "chart.js": "^3.9.1",
+    "chartjs-adapter-luxon": "^1.2.0",
+    "fuse.js": "^6.6.2",
+    "luxon": "^3.0.4"
   }
 }
