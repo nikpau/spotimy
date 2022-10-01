@@ -9,18 +9,21 @@ export type TrackHistoryEntry = {
 export type TrackHistory = TrackHistoryEntry[]
 
 export interface TrackHistoryService {
-  list: (start: DateTime, end: DateTime) => Promise<TrackHistory>
+  list: (start?: DateTime, end?: DateTime) => Promise<TrackHistory>
 }
 
 export const trackHistoryService: TrackHistoryService = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  list: async (start: DateTime, end: DateTime): Promise<TrackHistory> => {
+  list: async (start?: DateTime, end?: DateTime): Promise<TrackHistory> => {
     throw Error('Not implemented')
   }
 }
 
 export const trackHistoryServiceMock: TrackHistoryService = {
-  list: async (start: DateTime, end: DateTime): Promise<TrackHistory> => {
+  list: async (
+    start: DateTime = DateTime.fromJSDate(new Date(2022, 0, 1, 0, 0, 0)),
+    end: DateTime = DateTime.fromJSDate(new Date(2022, 0, 1, 2, 0, 0))
+  ): Promise<TrackHistory> => {
     const totalMinutes = Interval.fromDateTimes(start, end).length('minutes')
     const history: TrackHistoryEntry[] = []
 

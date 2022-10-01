@@ -1,22 +1,20 @@
+import { genresServiceMock } from '$lib/api/genre.js'
 import { artistsServiceMock } from './artists.js'
-import {
-  trackHistoryService,
-  trackHistoryServiceMock,
-  type TrackHistoryService
-} from './history.js'
+import { trackHistoryServiceMock, type TrackHistoryService } from './history.js'
 
 interface API {
   track_history: TrackHistoryService
 }
 
-export const MockAPI = {
+const MockAPI = {
   artists: artistsServiceMock,
-  history: trackHistoryServiceMock
+  history: trackHistoryServiceMock,
+  genres: genresServiceMock
 }
 
-export const RealAPI = {
-  artists: artistsServiceMock,
-  history: trackHistoryService
-}
+// const RealAPI = {
+//   artists: artistsServiceMock,
+//   history: trackHistoryService
+// }
 
 export const API = MockAPI

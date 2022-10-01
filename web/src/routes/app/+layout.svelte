@@ -2,7 +2,7 @@
 
 <span>
   <a href="artists">Artists</a> |
-  <a href="bpm">BPM</a> |
+  <a href="history">History</a> |
   <a href="playlists">Playlists</a>
 </span>
 
