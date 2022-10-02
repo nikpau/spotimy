@@ -1,12 +1,4 @@
-import type { Genre } from '$lib/api/genre.js'
-import type { ArtistID } from './artists.js'
-
-export type Track = {
-  name: string
-  artist_id: ArtistID
-  bpm: number | null
-  genres: Genre[]
-}
+import type { Track } from './track.model.js'
 
 export const testTracks: Track[] = [
   {

@@ -1,31 +1,16 @@
-import type { TrackHistory } from '$lib/api/history.js'
-import { prisma } from '$lib/server/db.js'
+import { genreService } from '$lib/service/genre/genre.service.js'
 import type { PageServerLoad } from './$types'
+import { listHistory } from './+server.js'
 
-export const load: PageServerLoad = async (data) => {
-  const firstUser = await prisma.user.findFirst()
-
-  const dbHistory = await prisma.trackHistory.findMany({
-    where: {
-      userId: firstUser!.id
-    },
-    include: {
-      track: true
-    }
-  })
-
-  const history: TrackHistory = dbHistory.map((entry) => ({
-    track: {
-      name: entry.track.title,
-      artist_id: entry.track.artistId?.toString() ?? '',
-      genres: [],
-      bpm: entry.track.bpm
-    },
-    playedAt: entry.timestamp
-  }))
+export const load: PageServerLoad = async () => {
+  const { history } = await listHistory(
+    new Date(2020, 1, 1, 0, 0, 0),
+    new Date(2028, 1, 1, 0, 0, 0)
+  )
+  const genres = await genreService.list()
 
   return {
     history,
-    genres: ['Rock', 'Hip Hop', 'Pop']
+    genres
   }
 }

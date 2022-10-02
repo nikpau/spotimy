@@ -1,4 +1,4 @@
-import type { ArtistID } from '../api/artists.js'
+import type { ArtistID } from '$lib/service/artist/index.js'
 
 export const spotifyWeb = {
   artist: (artist_id: ArtistID): string => {

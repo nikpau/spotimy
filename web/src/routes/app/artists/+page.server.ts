@@ -1,4 +1,4 @@
-import { API } from '$lib/api/index.js'
+import { API } from '$lib/service/index.js'
 import type { PageServerLoad } from './$types.js'
 
 export const load: PageServerLoad = async (data) => {

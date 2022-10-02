@@ -1,10 +1,4 @@
-import { testTracks } from '$lib/api/tracks.js'
-
-export type Genre = string
-
-interface GenreService {
-  list(): Promise<Genre[]>
-}
+import type { GenreService } from './genre.service.js'
 
 export const genresServiceMock: GenreService = {
   list: async () => {
