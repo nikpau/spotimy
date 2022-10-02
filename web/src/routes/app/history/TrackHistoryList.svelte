@@ -2,12 +2,11 @@
   import Fuse from 'fuse.js'
   import { DateTime } from 'luxon'
 
-  import type { Genre } from '$lib/api/genre.js'
-  import type { TrackHistory } from '$lib/api/history.js'
   import type { Range } from '$lib/utils/range.js'
 
   import TrackHistoryEntry from './TrackHistoryEntry.svelte'
-  import DateTimeInput from '$lib/components/DateTimeInput.svelte'
+  import type { TrackHistory } from '../../../lib/service/track-history/index.js'
+  import type { Genre } from '../../../lib/service/genre/index.js'
 
   export let history: TrackHistory
   export let genres: Genre[] = []
@@ -34,7 +33,8 @@
     keys: ['track.name', 'track.genres']
   })
 
-  function search(queryTerm: string, genre: string | null, bpm: Range<number>): TrackHistory {
+  function search(history: TrackHistory, queryTerm: string, genre: string | null, bpm: Range<number>): TrackHistory {
+    console.debug('Update track history list')
     let items = history
     if (needle !== '') items = fuse.search(queryTerm).map((result) => result.item)
     if (genre !== null) items = items.filter((item) => item.track.genres.includes(genre!))
@@ -44,7 +44,7 @@
     return items
   }
 
-  $: items = search(needle, genre, bpm)
+  $: items = search(history, needle, genre, bpm)
 </script>
 
 <p>

@@ -1,6 +1,8 @@
 import { PrismaClient, type SpotifyToken, type User } from '@prisma/client'
 
-export const prisma = new PrismaClient()
+export const prisma = new PrismaClient({
+  log: ['query']
+})
 
 export async function createUser(user: User, spotifyToken: SpotifyToken) {
   await prisma.user.create({

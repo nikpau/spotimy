@@ -1,16 +1,17 @@
 <script lang="ts">
-  import type { TrackHistoryEntry } from '$lib/api/history.js'
   import { DateTime } from 'luxon'
+  import type { TrackHistoryEntry } from '../../../lib/service/track-history/index.js'
 
   export let entry: TrackHistoryEntry
 
-  const playedAt = DateTime.fromJSDate(entry.playedAt)
+  // TODO: API should only return `Date` objects, never an ISO string.
+  const playedAt = typeof entry.playedAt === "string" ? DateTime.fromISO(entry.playedAt): DateTime.fromJSDate(entry.playedAt)
 </script>
 
 <div class="entry">
   <p>
     {playedAt.toLocaleString()}
-    {playedAt.toFormat('hh:mm')}: {entry.track.name}
+    {playedAt.toFormat('HH:mm')}: {entry.track.name}
   </p>
   <p>
     {entry.track.genres.join(' | ')} |

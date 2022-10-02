@@ -9,7 +9,7 @@ export async function createTrackHistoryFixtures(client: PrismaClient): Promise<
   const trackHistory: TrackHistory[] = []
 
   for (const user of Object.values(fixtures.users)) {
-    const historyLength = randomNumberInRange(5, 15)
+    const historyLength = randomNumberInRange(200, 500)
     let offsetInMinutes = 0
 
     for (let i = 0; i < historyLength; i++) {
