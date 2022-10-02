@@ -3,16 +3,18 @@
   import { DateTime } from 'luxon'
 
   export let entry: TrackHistoryEntry
+
+  const playedAt = DateTime.fromJSDate(entry.playedAt)
 </script>
 
 <div class="entry">
   <p>
-    {entry.playedAt.toLocaleString()}
-    {entry.playedAt.toFormat('hh:mm')}: {entry.track.name}
+    {playedAt.toLocaleString()}
+    {playedAt.toFormat('hh:mm')}: {entry.track.name}
   </p>
   <p>
     {entry.track.genres.join(' | ')} |
-    {entry.track.bpm} bpm
+    {entry.track.bpm ?? '∅'} bpm
   </p>
 </div>
 

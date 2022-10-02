@@ -13,6 +13,7 @@ model User {
   name  String?
 
   spotifyToken SpotifyToken?
+  TrackHistory TrackHistory[]
 }
 
 // See: https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
@@ -34,8 +35,20 @@ model Artist {
 }
 
 model Track {
-  id       Int     @id @default(autoincrement())
-  title    String
-  Artist   Artist? @relation(fields: [artistId], references: [id])
-  artistId Int?
+  id           Int            @id @default(autoincrement())
+  title        String
+  Artist       Artist?        @relation(fields: [artistId], references: [id])
+  artistId     Int?
+  bpm          Int?
+  TrackHistory TrackHistory[]
+}
+
+model TrackHistory {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  track     Track    @relation(fields: [trackId], references: [id])
+  trackId   Int
+  timestamp DateTime @default(now())
+
+  @@id([userId, timestamp])
 }

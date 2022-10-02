@@ -1,5 +1,5 @@
+import { artistsService } from '$lib/api/artists.js'
 import { genresServiceMock } from '$lib/api/genre.js'
-import { artistsServiceMock } from './artists.js'
 import { trackHistoryServiceMock, type TrackHistoryService } from './history.js'
 
 interface API {
@@ -7,7 +7,7 @@ interface API {
 }
 
 const MockAPI = {
-  artists: artistsServiceMock,
+  artists: artistsService,
   history: trackHistoryServiceMock,
   genres: genresServiceMock
 }

@@ -1,19 +1,16 @@
 <script lang="ts">
-  import { API } from '$lib/api/index.js'
   import type { Artist } from '$lib/api/artists.js'
   import ArtistItem from './ArtistItem.svelte'
   import Fuse from 'fuse.js'
+  import type { PageData } from './$types.js'
 
-  let allArtists: Artist[] = []
+  export let data: PageData
+
+  let allArtists: Artist[] = data.artists
   let needle = ''
-  let fuse: Fuse<Artist> | undefined
-
-  async function load() {
-    allArtists = await API.artists.list_my_artists()
-    fuse = new Fuse(allArtists, {
-      keys: ['name']
-    })
-  }
+  let fuse: Fuse<Artist> = new Fuse(allArtists, {
+    keys: ['name']
+  })
 
   function filter(searchTerm: string): Artist[] {
     if (!fuse || searchTerm === '') return allArtists
@@ -28,10 +25,6 @@
   <input type="text" bind:value={needle} />
 </p>
 
-{#await load()}
-  <p>Loading</p>
-{:then _}
-  {#each filter(needle) as artist}
-    <ArtistItem {artist} />
-  {/each}
-{/await}
+{#each filter(needle) as artist}
+  <ArtistItem {artist} />
+{/each}

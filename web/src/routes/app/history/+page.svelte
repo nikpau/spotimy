@@ -1,17 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import type { TrackHistory } from '$lib/api/history.js'
   import TrackHistoryList from './TrackHistoryList.svelte'
-  import { API } from '$lib/api/index.js'
-  import type { Genre } from '$lib/api/genre.js'
+  import type { PageData } from './$types.js'
 
-  let history: TrackHistory = []
-  let genres: Genre[] = []
+  export let data: PageData
 
-  onMount(async () => {
-    history = await API.history.list()
-    genres = await API.genres.list()
-  })
+  const { history, genres }= data
 </script>
 
 <h2>History</h2>

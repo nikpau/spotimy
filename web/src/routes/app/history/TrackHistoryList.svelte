@@ -1,6 +1,6 @@
 <script lang="ts">
   import Fuse from 'fuse.js'
-  import type { DateTime } from 'luxon'
+  import { DateTime } from 'luxon'
 
   import type { Genre } from '$lib/api/genre.js'
   import type { TrackHistory } from '$lib/api/history.js'
@@ -24,8 +24,8 @@
     max: undefined
   }
   const allowedDateRange: Range<DateTime> = {
-    min: history[history.length - 1].playedAt,
-    max: history[0].playedAt
+    min: DateTime.fromJSDate(history[history.length - 1].playedAt),
+    max: DateTime.fromJSDate(history[0].playedAt)
   }
 
   $: console.log('Daterange', dateRange)

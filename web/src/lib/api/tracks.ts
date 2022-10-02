@@ -4,7 +4,7 @@ import type { ArtistID } from './artists.js'
 export type Track = {
   name: string
   artist_id: ArtistID
-  bpm: number | undefined
+  bpm: number | null
   genres: Genre[]
 }
 

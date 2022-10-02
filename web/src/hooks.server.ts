@@ -1,4 +1,7 @@
 import type { Handle } from '@sveltejs/kit'
+import { importFixtures } from './fixtures/index.js'
+
+importFixtures().then(() => console.debug('Successfully imported fixtures'))
 
 export const handle: Handle = async ({ event, resolve }) => {
   let userid = event.cookies.get('userid')
