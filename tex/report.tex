@@ -1,0 +1,47 @@
+\documentclass[landscape,12pt]{extarticle}
+
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{geometry}
+%\newgeometry{left=5mm,right=5mm,top=1cm,bottom=1cm}
+
+\usepackage{booktabs}
+\usepackage{fontspec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\setmainfont{KyivType Sans}
+\newfontfamily\KyivThin{KyivType Sans Light}
+\newfontfamily\KyivBold{KyivType Sans Bold}
+
+% Allow for linebreaks in Table
+\usepackage{makecell}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+\renewcommand{\cellalign}{l}
+
+% COLORS ---------------------------------------
+\usepackage{xcolor}
+%\definecolor{tublue}{rgb}{0.09,0.34,0.33}
+\definecolor{tublue}{HTML}{00aca9}
+\definecolor{tured}{HTML}{cd1619}
+\newcommand{\bl}[1]{\color{tublue}{\Large{\KyivBold #1}}}
+\newcommand{\firstcolwidth}{0.2\textwidth}
+\newcommand{\secondcolwidth}{0.7\textwidth}
+
+\usepackage{eso-pic}
+\AddToShipoutPictureBG{%
+\includegraphics[width=\paperwidth]{bg.pdf}%
+}
+
+\color{white}
+
+\begin{document}
+\thispagestyle{empty}
+
+    \begin{center}
+        \Huge{Mein Report mashallah}
+    \end{center}
+
+\end{document}
