@@ -1,9 +1,11 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Any, Dict, List, Sequence, TypeVar
+from sqlite3 import Timestamp
+from typing import Any, Callable, Dict, List, Sequence, TypeVar, Union
 
 PlaylistID = TypeVar("PlaylistID",bound=str)
-
+TrackID = TypeVar("TrackID",bound=str)
+TimeStamp = TypeVar("TimeStamp",bound=str)
 TopArtist = namedtuple("TopArtist",["name","count"])
 
 @dataclass
@@ -15,8 +17,6 @@ class Playlist:
     id: PlaylistID
     descr: str
     is_public: bool
-    
-TrackID = TypeVar("TrackID",bound=str)
 
 @dataclass(frozen=True)
 class SimpleTrack:
@@ -25,26 +25,31 @@ class SimpleTrack:
     
 @dataclass(frozen=True)
 class Track:
-    title: str
-    artists: str | Sequence[str]  
-    bpm: int
     track_id: TrackID
+    title: str
+    artists: Union[str, Sequence[str]]
+    bpm: float
+    duration: float = None # Duration in [ms]
+    
+@dataclass
+class TrackHistoryEntry:
+    track: Track
+    timestamp: Timestamp
 
-class AggregatedPlaylists:
+class Playlists:
     """
-    Takes in an api response returned from 
-    `spotipy.Spotify().current_user_playlists()` and 
-    aggregates 
+    Wrapper class for an api response containing 
+    a list of playlists as ["items"]
     """
     
     def __init__(self,_api_response: Dict[str,Any]):
         self.payload = _api_response
         self._validate()
         self.ids = self._get_ids()
-        self.all_playlists = self._gather()
+        self.playlists = self._gather()
         self.next = self.payload["next"]
     
-    def _validate(self) -> None | RuntimeError:
+    def _validate(self) -> None:
         if "playlists" in self.payload["href"]:
             return
         else:
@@ -61,6 +66,10 @@ class AggregatedPlaylists:
         return _ids
 
     def _gather(self) -> List[Playlist]:
+        """
+        Gathers playlists from payload to 
+        a list of `Playlist` types
+        """
         _playlists = []
         for playlist in self.payload["items"]:
             _playlists.append(
@@ -73,61 +82,74 @@ class AggregatedPlaylists:
             )
         return _playlists
 
-class TracksFromPlaylist:
+class Tracks:
     """
-    Takes in an api response returned from 
-    `spotipy.Spotify().playlist_items()` and 
-    aggregates 
+    Wrapper class for an api response containing 
+    a list of tracks as ["items"]
     """
     
     def __init__(self,_api_response: Dict[str,Any]):
         self.payload = _api_response
         self._validate()
-        self.ids = self._get_ids()
-        self.titles = self._get_titles()
-        self.artists = self._get_artists()
-        self.next = self.payload["next"]
+        self.next = self.payload["next"]    
+        
+    def _has_empty_items(self) -> bool:
+        return True if not self.payload["items"] else False
     
-    def _validate(self) -> None | RuntimeError:
-        if "tracks" in self.payload["href"]:
+    def _validate(self) -> None:
+        if "track" in self.payload["items"][0]:
             return
         else:
             raise RuntimeError(
-                "Expected query to `tracks`. Got {}".format(
-                    self.payload["href"]
+                "Expected response to contain a `track` "
+                "field. Got {}".format(
+                    repr(self.payload["items"][0].keys())
                 )
             )
-        
-    def _get_ids(self) -> List[PlaylistID]:
-        _ids = []
+
+    def get_ids(self) -> List[PlaylistID]:
+        ids = []
         for track in self.payload["items"]:
             if track["track"]["id"] is not None:
-                _ids.append(track["track"]["id"])
-        return _ids
+                ids.append(track["track"]["id"])
+        return ids
 
-    def _get_titles(self) -> List[str]:
-        _titles = []
+    def get_titles(self) -> List[str]:
+        titles = []
         for track_obj in self.payload["items"]:
             track = track_obj["track"]
-            _titles.append(track["name"])
-        return _titles
+            titles.append(track["name"])
+        return titles
 
-    def _get_artists(self) -> List[str]:
-        _artists = []
+    def get_artists(self) -> List[str]:
+        artists = []
         for track_obj in self.payload["items"]:
             track = track_obj["track"]
-            _tmp = []
+            tmp = []
             for artist in track["artists"]:
-                _tmp.append(artist["name"])
-            _artists.append(_tmp)
-        return _artists
-
-    def _gather(self) -> List[Playlist]:
-        _tracks = []
-        for track in self.payload["items"]:
-            _tracks.append(
-                Track(
-
+                tmp.append(artist["name"])
+            artists.append(tmp)
+        return artists
+    
+    def played_at(self) -> List[str]:
+        """Returns a list of timestamps
+        at which songs have been played at.
+        Throws an error if payload does not
+        contain a "played_at" field"""            
+        if "played_at" not in self.payload["items"][0]:
+                raise RuntimeError(
+                    "Payload does not conain a 'played_at' "
+                    "field. Check your request."
                 )
-            )
-        return _tracks
+        timestamps = []
+        for track_obj in self.payload["items"]:
+            timestamps.append(track_obj["played_at"])
+        return timestamps
+    
+    def get_durations(self) -> List[float]:
+        """Get song playtimes in [ms]"""
+        playtimes = []
+        for track_obj in self.payload["items"]:
+            track = track_obj["track"]
+            playtimes.append(track["duration_ms"])
+        return playtimes
