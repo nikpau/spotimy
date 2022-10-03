@@ -5,7 +5,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import plots
 
 # Init
-scope = "user-library-read"
+scope = ["user-library-read","user-read-recently-played"]
 sp = Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
 # Test Barplot summary for Top10 Artists
@@ -18,4 +18,9 @@ def t_summary_plot(sp: Spotify)->BinaryIO:
 def t_list_all_songs(sp: Spotify) -> List[app.Track]:
     print(app.list_all_songs(sp))
 
-t_list_all_songs(sp)
+def t_listenting_history(sp:Spotify)-> None:
+    return app.listening_history(sp)
+    
+# plots.bpm_timeseries(None,test=True)
+f= t_listenting_history(sp)
+print(f)
