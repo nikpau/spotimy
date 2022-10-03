@@ -1,7 +1,9 @@
 <script lang="ts">
-  import type { PageData } from './$types'
+  import { getAuthorizeUrl } from '$lib/spotify/url.js'
 
-  export let data: PageData
+  function redirectToSpotify() {
+    window.open(getAuthorizeUrl(), '_self', 'WIDTH=400,HEIGHT=500')
+  }
 </script>
 
-<p>Login with code {data.code}</p>
+<button on:click={redirectToSpotify}>Login to Spotify</button>

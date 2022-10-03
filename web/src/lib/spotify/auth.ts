@@ -1,4 +1,6 @@
 import type { SpotifyToken } from '@prisma/client'
+import { SpotifyWebApi } from 'spotify-web-api-ts'
+import type { User } from '../service/user/user.model.js'
 
 /// See: https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 export async function get_access_token(
@@ -25,4 +27,16 @@ export async function get_access_token(
   if (!response.ok) throw new Error('Unable to retrieve access token')
 
   return response.json()
+}
+
+export async function get_user_profile_from_spotify(
+  access_token: string
+): Promise<Omit<User, 'id'>> {
+  const spotify = new SpotifyWebApi({ accessToken: access_token })
+  const response = await spotify.users.getMe()
+
+  return {
+    name: response.display_name || response.email || '',
+    email: response.email
+  }
 }

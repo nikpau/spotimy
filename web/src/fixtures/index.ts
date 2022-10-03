@@ -24,6 +24,7 @@ export async function importFixtures() {
   await prisma.trackHistory.deleteMany({ where: {} })
   await prisma.track.deleteMany({ where: {} })
   await prisma.artist.deleteMany({ where: {} })
+  await prisma.spotifyToken.deleteMany({ where: {} })
   await prisma.user.deleteMany({ where: {} })
 
   console.debug('Importing user fixtures')

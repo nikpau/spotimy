@@ -1,9 +1,4 @@
-<script lang="ts">
-  import { getAuthorizeUrl } from '$lib/spotify/url.js'
+<h1>Hello at Spotify</h1>
 
-  function redirectToSpotify() {
-    window.open(getAuthorizeUrl(), '_self', 'WIDTH=400,HEIGHT=500')
-  }
-</script>
-
-<button on:click={redirectToSpotify}>Login to Spotify</button>
+<a href="/app/artists">App</a>
+<a href="/login">Login</a>

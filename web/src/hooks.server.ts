@@ -1,19 +1,22 @@
 import type { Handle } from '@sveltejs/kit'
 import { importFixtures } from './fixtures/index.js'
+import { userService } from './lib/service/user/index.js'
 
 importFixtures().then(() => console.debug('Successfully imported fixtures'))
 
 export const handle: Handle = async ({ event, resolve }) => {
-  let userid = event.cookies.get('userid')
+  const authToken = event.cookies.get('session')
 
-  if (!userid) {
-    // if this is the first time the user has visited this app,
-    // set a cookie so that we recognise them when they return
-    userid = crypto.randomUUID()
-    event.cookies.set('userid', userid, { path: '/' })
+  if (!authToken) {
+    console.debug('Unauthenticated request')
+    return await resolve(event)
   }
 
-  event.locals.userid = userid
+  const user = await userService.findByAuthToken(authToken)
+  if (user) {
+    console.debug('Authenticated request: ', user.id)
+    event.locals.user_id = user.id
+  }
 
   return resolve(event)
 }
