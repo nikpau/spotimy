@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package spotimy.v1;
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+ 
+message User {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}

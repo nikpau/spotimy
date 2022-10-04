@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package report.v1;
+
+service ReportService {
+  rpc GetReport(GetReportRequest) returns (GetReportResponse);
+}
+
+message Report {
+  bytes report = 1;
+}
+
+message GetReportRequest {
+  string user_id = 1;
+}
+
+message GetReportResponse {
+  Report report = 1;
+}

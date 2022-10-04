@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package scraper.v1;
+
+service ScraperService {
+  rpc Scrape(ScrapeRequest) returns (ScrapeResponse);
+}
+
+message ScrapeRequest {
+  string user_id = 1;
+}
+
+message ScrapeResponse {}
