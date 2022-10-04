@@ -1,32 +1,17 @@
-from collections import namedtuple
-from dataclasses import dataclass
-from typing import List, Sequence, TypeVar
+from typing import List, Sequence, Tuple
 
 import dotenv
 import spotipy
+import _helper
+from datetime import datetime
 from spotipy import Spotify
+from _types import (
+    Playlists, SimpleTrack,
+    Track, TopArtist, Tracks, 
+    TrackHistoryEntry
+)
 
 dotenv.load_dotenv()
-
-TrackID = TypeVar("TrackID",bound=str)
-
-@dataclass(frozen=True)
-class SimpleTrack:
-    title: str
-    artist: str
-    
-@dataclass(frozen=True)
-class Track:
-    title: str
-    artists: str | Sequence[str]  
-    bpm: int
-    track_id: TrackID
-    
-    
-TopArtist = namedtuple("TopArtist",["name","count"])
-
-
-# Set scope to
     
 def list_liked_songs(sp: Spotify) -> List[SimpleTrack]:
     tracks = []
@@ -43,25 +28,27 @@ def list_liked_songs(sp: Spotify) -> List[SimpleTrack]:
 
 def list_all_songs(sp: Spotify) -> List[Track]:
     out = []
-    playlists = sp.current_user_playlists()
+    playlists = Playlists(sp.current_user_playlists())
     while playlists:
-        for playlist in playlists["items"]:
-            tracks = sp.playlist_items(playlist["id"],limit=100)
+        for playlist_id in playlists.ids:
+            tracks = Tracks(sp.playlist_items(
+                    playlist_id,limit=100))
             while tracks:
-                _track_ids = [track["track"]["id"] for track in tracks["items"]]
-                _track_ids = [id for id in _track_ids if id is not None]
                 # TODO check if order is preserved
-                _track_features = sp.audio_features(_track_ids)
-                _bpms = [feature["tempo"] if feature is not None else -1 for feature in _track_features]
-                _artists = [
-                    [artist["name"] for artist in track["track"]["artists"]] 
-                    for track in tracks["items"]
-                ]
-                _titles = [track["track"]["name"] for track in tracks["items"]]
-                for t,a,bpm,id in zip(_titles,_artists,_bpms,_track_ids):
-                    out.append(Track(t,a,bpm,id))
-                tracks = sp.next(tracks) if tracks["next"] else None
-        playlists = sp.next(playlists) if playlists["next"] else None
+                track_features = sp.audio_features(tracks.get_ids())
+                bpms = []
+                for feature in track_features:
+                    bpms.append(feature["tempo"] if feature is not None else -1)
+                    durations = tracks.get_durations()
+                args = list(zip(tracks.get_ids(),tracks.get_titles(),
+                                tracks.get_artists(),bpms, durations))
+                out.extend([Track(*a) for a in args])
+                if tracks.next is not None:
+                    tracks = Tracks(sp.next(tracks.payload))
+                else: tracks = None
+        if playlists.next is not None:
+            playlists = Playlists(sp.next(playlists.payload))
+        else: playlists = None
     return out
         
 
@@ -71,10 +58,28 @@ def top_artists(tracks: Sequence[SimpleTrack],top_n: int = None) -> List[TopArti
     for artist in artists:
         if artist in tops.keys():
             tops[artist] += 1 
-        else:
-            tops[artist] = 1
+        else: tops[artist] = 1
     sorted_artists = sorted(tops.items(), key=lambda item: item[1],reverse=True)
     top_artist_list = [TopArtist(name,count) for name,count in sorted_artists]
     return top_artist_list[:top_n] if top_n is not None else top_artist_list
+
+def listening_history(sp: Spotify) -> List[TrackHistoryEntry]:
+    """Get the last 50 tracks the current user listened to
+    as a list of (Track,timestamp) tuples."""
+    history = Tracks(sp.current_user_recently_played())
+    ids = history.get_ids()
+    track_features = sp.audio_features(ids)
+    bpms = []
+    for feature in track_features:
+        bpms.append(feature["tempo"] if feature is not None else -1)
+    timestamps = history.played_at()
+    durations = history.get_durations()
+    args = list(zip(ids,history.get_titles(),
+                    history.get_artists(),bpms,durations))
+    out = []
+    for a,ts in zip(args,timestamps):
+        out.append(TrackHistoryEntry(Track(*a),datetime.fromisoformat(ts[:-1])))
+    return out
+ 
 
 # TODO Make summary
