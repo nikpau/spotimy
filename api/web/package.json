@@ -1,0 +1,11 @@
+{
+  "name": "@spotimy/api-web",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "",
+  "author": "Nick Lehmann <nick@lehmann.sh>",
+  "license": "ISC",
+  "dependencies": {
+    "@bufbuild/protobuf": "^0.1.1"
+  }
+}

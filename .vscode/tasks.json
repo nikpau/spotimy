@@ -1,0 +1,103 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "API: Generate",
+      "type": "shell",
+      "command": "buf generate",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "API: Lint",
+      "type": "shell",
+      "command": "buf lint",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Web: Dev",
+      "type": "npm",
+      "script": "dev",
+      "path": "apps/web",
+      "problemMatcher": []
+    },
+    {
+      "label": "Web: Build",
+      "type": "npm",
+      "script": "build",
+      "path": "apps/web",
+      "problemMatcher": []
+    },
+    {
+      "label": "Gateway: Start",
+      "type": "shell",
+      "options": {
+        "cwd": "apps/gateway"
+      },
+      "command": "go run cmd/main.go",
+      "problemMatcher": []
+    },
+    {
+      "label": "Client/Javascript: Build",
+      "type": "npm",
+      "script": "build",
+      "path": "clients/javascript",
+      "problemMatcher": []
+    },
+    {
+      "label": "Music: Build",
+      "type": "npm",
+      "script": "build",
+      "path": "components/music",
+      "problemMatcher": []
+    },
+    {
+      "label": "Music: Dev",
+      "type": "npm",
+      "script": "dev",
+      "path": "components/music",
+      "problemMatcher": []
+    },
+    {
+      "label": "Music: Generate DB client",
+      "type": "npm",
+      "script": "prisma:generate",
+      "path": "components/music",
+      "problemMatcher": []
+    },
+    {
+      "label": "Music: Migrate",
+      "type": "npm",
+      "script": "prisma:migrate",
+      "path": "components/music",
+      "problemMatcher": []
+    },
+    {
+      "label": "User: Build",
+      "type": "npm",
+      "script": "build",
+      "path": "components/user",
+      "problemMatcher": []
+    },
+    {
+      "label": "User: Dev",
+      "type": "npm",
+      "script": "dev",
+      "path": "components/user",
+      "problemMatcher": []
+    }
+  ]
+}

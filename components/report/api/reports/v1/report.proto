@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package reports.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/reports/v1;reports";
+
+service ReportService {
+  rpc GetReport(GetReportRequest) returns (GetReportResponse);
+}
+
+message Report {
+  bytes report = 1;
+}
+
+message GetReportRequest {
+  string user_id = 1;
+}
+
+message GetReportResponse {
+  Report report = 1;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@spotimy/api",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "long": "^5.2.0",
+    "nice-grpc-common": "^2.0.0",
+    "protobufjs": "^7.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}

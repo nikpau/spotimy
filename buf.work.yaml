@@ -1,0 +1,6 @@
+version: v1
+directories:
+  - components/music/api
+  - components/user/api
+  - components/report/api
+  - components/scraper/api
