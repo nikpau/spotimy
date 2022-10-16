@@ -5,15 +5,16 @@
 
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
+import type {SpotifyToken} from "./spotify_pb.js";
 
 /**
  * @generated from message user.v1.User
  */
 export declare class User extends Message<User> {
   /**
-   * @generated from field: string user_id = 1;
+   * @generated from field: uint64 id = 1;
    */
-  userId: string;
+  id: bigint;
 
   /**
    * @generated from field: string name = 2;
@@ -45,9 +46,14 @@ export declare class User extends Message<User> {
  */
 export declare class GetUserRequest extends Message<GetUserRequest> {
   /**
-   * @generated from field: string user_id = 1;
+   * @generated from field: uint64 user_id = 1;
    */
-  userId: string;
+  userId: bigint;
+
+  /**
+   * @generated from field: string email = 2;
+   */
+  email: string;
 
   constructor(data?: PartialMessage<GetUserRequest>);
 
@@ -86,5 +92,92 @@ export declare class GetUserResponse extends Message<GetUserResponse> {
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserResponse;
 
   static equals(a: GetUserResponse | PlainMessage<GetUserResponse> | undefined, b: GetUserResponse | PlainMessage<GetUserResponse> | undefined): boolean;
+}
+
+/**
+ * @generated from message user.v1.ListUsersRequest
+ */
+export declare class ListUsersRequest extends Message<ListUsersRequest> {
+  constructor(data?: PartialMessage<ListUsersRequest>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "user.v1.ListUsersRequest";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListUsersRequest;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListUsersRequest;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListUsersRequest;
+
+  static equals(a: ListUsersRequest | PlainMessage<ListUsersRequest> | undefined, b: ListUsersRequest | PlainMessage<ListUsersRequest> | undefined): boolean;
+}
+
+/**
+ * @generated from message user.v1.ListUsersResponse
+ */
+export declare class ListUsersResponse extends Message<ListUsersResponse> {
+  /**
+   * @generated from field: repeated user.v1.User users = 1;
+   */
+  users: User[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+
+  constructor(data?: PartialMessage<ListUsersResponse>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "user.v1.ListUsersResponse";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ListUsersResponse;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ListUsersResponse;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ListUsersResponse;
+
+  static equals(a: ListUsersResponse | PlainMessage<ListUsersResponse> | undefined, b: ListUsersResponse | PlainMessage<ListUsersResponse> | undefined): boolean;
+}
+
+/**
+ * @generated from message user.v1.CreateUserRequest
+ */
+export declare class CreateUserRequest extends Message<CreateUserRequest> {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string email = 2;
+   */
+  email: string;
+
+  /**
+   * @generated from field: string auth_token = 3;
+   */
+  authToken: string;
+
+  /**
+   * @generated from field: user.v1.SpotifyToken spotify_token = 4;
+   */
+  spotifyToken?: SpotifyToken;
+
+  constructor(data?: PartialMessage<CreateUserRequest>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "user.v1.CreateUserRequest";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateUserRequest;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateUserRequest;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateUserRequest;
+
+  static equals(a: CreateUserRequest | PlainMessage<CreateUserRequest> | undefined, b: CreateUserRequest | PlainMessage<CreateUserRequest> | undefined): boolean;
 }
 

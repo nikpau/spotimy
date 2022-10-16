@@ -11,10 +11,11 @@ import {proto3} from "@bufbuild/protobuf";
 export const Track = proto3.makeMessageType(
   "music.tracks.v1.Track",
   () => [
-    { no: 1, name: "name", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
-    { no: 2, name: "artist_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "bpm", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 4, name: "genres", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 1, name: "id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "artist_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "bpm", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "genres", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ],
 );
 

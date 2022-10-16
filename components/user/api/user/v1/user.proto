@@ -4,20 +4,40 @@ package user.v1;
 
 option go_package = "github.com/nikpau/spotimy/apps/gateway/def/user/v1;user";
 
+import "user/v1/spotify.proto";
+
 service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (User) {}
 }
  
 message User {
-  string user_id = 1;
+  uint64 id = 1;
   string name = 2;
   string email = 3;
 }
 
 message GetUserRequest {
-  string user_id = 1;
+  uint64 user_id = 1;
+  string email = 2;
 }
 
 message GetUserResponse {
   User user = 1;
+}
+
+message ListUsersRequest {}
+
+message ListUsersResponse {
+  repeated User users = 1;
+  string next_page_token = 2;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2; 
+  string auth_token = 3;
+
+  SpotifyToken spotify_token = 4;
 }

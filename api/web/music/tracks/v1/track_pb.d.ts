@@ -11,22 +11,27 @@ import {Message, proto3} from "@bufbuild/protobuf";
  */
 export declare class Track extends Message<Track> {
   /**
-   * @generated from field: int64 name = 1;
+   * @generated from field: uint64 id = 1;
    */
-  name: bigint;
+  id: bigint;
 
   /**
-   * @generated from field: string artist_id = 2;
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string artist_id = 3;
    */
   artistId: string;
 
   /**
-   * @generated from field: int32 bpm = 3;
+   * @generated from field: int32 bpm = 4;
    */
   bpm: number;
 
   /**
-   * @generated from field: repeated string genres = 4;
+   * @generated from field: repeated string genres = 5;
    */
   genres: string[];
 

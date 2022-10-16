@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/user/v1;user";
+
+message SpotifyToken {
+  string access_token = 1;
+  // Unix timestamp (in seconds) in which the access token will expire.
+  int64 expires_at = 2;
+  string token_type = 3; 
+  repeated string scopes = 4;
+  string refresh_token = 5;
+}

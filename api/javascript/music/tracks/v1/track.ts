@@ -6,7 +6,8 @@ import _m0 from "protobufjs/minimal.js";
 export const protobufPackage = "music.tracks.v1";
 
 export interface Track {
-  name: number;
+  id: number;
+  name: string;
   artistId: string;
   bpm: number;
   genres: string[];
@@ -21,22 +22,25 @@ export interface ListTracksResponse {
 }
 
 function createBaseTrack(): Track {
-  return { name: 0, artistId: "", bpm: 0, genres: [] };
+  return { id: 0, name: "", artistId: "", bpm: 0, genres: [] };
 }
 
 export const Track = {
   encode(message: Track, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.name !== 0) {
-      writer.uint32(8).int64(message.name);
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
     }
     if (message.artistId !== "") {
-      writer.uint32(18).string(message.artistId);
+      writer.uint32(26).string(message.artistId);
     }
     if (message.bpm !== 0) {
-      writer.uint32(24).int32(message.bpm);
+      writer.uint32(32).int32(message.bpm);
     }
     for (const v of message.genres) {
-      writer.uint32(34).string(v!);
+      writer.uint32(42).string(v!);
     }
     return writer;
   },
@@ -49,15 +53,18 @@ export const Track = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.name = longToNumber(reader.int64() as Long);
+          message.id = longToNumber(reader.uint64() as Long);
           break;
         case 2:
-          message.artistId = reader.string();
+          message.name = reader.string();
           break;
         case 3:
-          message.bpm = reader.int32();
+          message.artistId = reader.string();
           break;
         case 4:
+          message.bpm = reader.int32();
+          break;
+        case 5:
           message.genres.push(reader.string());
           break;
         default:
@@ -70,7 +77,8 @@ export const Track = {
 
   fromJSON(object: any): Track {
     return {
-      name: isSet(object.name) ? Number(object.name) : 0,
+      id: isSet(object.id) ? Number(object.id) : 0,
+      name: isSet(object.name) ? String(object.name) : "",
       artistId: isSet(object.artistId) ? String(object.artistId) : "",
       bpm: isSet(object.bpm) ? Number(object.bpm) : 0,
       genres: Array.isArray(object?.genres) ? object.genres.map((e: any) => String(e)) : [],
@@ -79,7 +87,8 @@ export const Track = {
 
   toJSON(message: Track): unknown {
     const obj: any = {};
-    message.name !== undefined && (obj.name = Math.round(message.name));
+    message.id !== undefined && (obj.id = Math.round(message.id));
+    message.name !== undefined && (obj.name = message.name);
     message.artistId !== undefined && (obj.artistId = message.artistId);
     message.bpm !== undefined && (obj.bpm = Math.round(message.bpm));
     if (message.genres) {
@@ -92,7 +101,8 @@ export const Track = {
 
   fromPartial(object: DeepPartial<Track>): Track {
     const message = createBaseTrack();
-    message.name = object.name ?? 0;
+    message.id = object.id ?? 0;
+    message.name = object.name ?? "";
     message.artistId = object.artistId ?? "";
     message.bpm = object.bpm ?? 0;
     message.genres = object.genres?.map((e) => e) || [];

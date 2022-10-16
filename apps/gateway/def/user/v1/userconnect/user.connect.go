@@ -28,6 +28,8 @@ const (
 // UserServiceClient is a client for the user.v1.UserService service.
 type UserServiceClient interface {
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
+	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest]) (*connect_go.Response[v1.ListUsersResponse], error)
+	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.User], error)
 }
 
 // NewUserServiceClient constructs a client for the user.v1.UserService service. By default, it uses
@@ -45,12 +47,24 @@ func NewUserServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+"/user.v1.UserService/GetUser",
 			opts...,
 		),
+		listUsers: connect_go.NewClient[v1.ListUsersRequest, v1.ListUsersResponse](
+			httpClient,
+			baseURL+"/user.v1.UserService/ListUsers",
+			opts...,
+		),
+		createUser: connect_go.NewClient[v1.CreateUserRequest, v1.User](
+			httpClient,
+			baseURL+"/user.v1.UserService/CreateUser",
+			opts...,
+		),
 	}
 }
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
-	getUser *connect_go.Client[v1.GetUserRequest, v1.GetUserResponse]
+	getUser    *connect_go.Client[v1.GetUserRequest, v1.GetUserResponse]
+	listUsers  *connect_go.Client[v1.ListUsersRequest, v1.ListUsersResponse]
+	createUser *connect_go.Client[v1.CreateUserRequest, v1.User]
 }
 
 // GetUser calls user.v1.UserService.GetUser.
@@ -58,9 +72,21 @@ func (c *userServiceClient) GetUser(ctx context.Context, req *connect_go.Request
 	return c.getUser.CallUnary(ctx, req)
 }
 
+// ListUsers calls user.v1.UserService.ListUsers.
+func (c *userServiceClient) ListUsers(ctx context.Context, req *connect_go.Request[v1.ListUsersRequest]) (*connect_go.Response[v1.ListUsersResponse], error) {
+	return c.listUsers.CallUnary(ctx, req)
+}
+
+// CreateUser calls user.v1.UserService.CreateUser.
+func (c *userServiceClient) CreateUser(ctx context.Context, req *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.User], error) {
+	return c.createUser.CallUnary(ctx, req)
+}
+
 // UserServiceHandler is an implementation of the user.v1.UserService service.
 type UserServiceHandler interface {
 	GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error)
+	ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest]) (*connect_go.Response[v1.ListUsersResponse], error)
+	CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.User], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -75,6 +101,16 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect_go.HandlerOpt
 		svc.GetUser,
 		opts...,
 	))
+	mux.Handle("/user.v1.UserService/ListUsers", connect_go.NewUnaryHandler(
+		"/user.v1.UserService/ListUsers",
+		svc.ListUsers,
+		opts...,
+	))
+	mux.Handle("/user.v1.UserService/CreateUser", connect_go.NewUnaryHandler(
+		"/user.v1.UserService/CreateUser",
+		svc.CreateUser,
+		opts...,
+	))
 	return "/user.v1.UserService/", mux
 }
 
@@ -83,4 +119,12 @@ type UnimplementedUserServiceHandler struct{}
 
 func (UnimplementedUserServiceHandler) GetUser(context.Context, *connect_go.Request[v1.GetUserRequest]) (*connect_go.Response[v1.GetUserResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("user.v1.UserService.GetUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ListUsers(context.Context, *connect_go.Request[v1.ListUsersRequest]) (*connect_go.Response[v1.ListUsersResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("user.v1.UserService.ListUsers is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) CreateUser(context.Context, *connect_go.Request[v1.CreateUserRequest]) (*connect_go.Response[v1.User], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("user.v1.UserService.CreateUser is not implemented"))
 }

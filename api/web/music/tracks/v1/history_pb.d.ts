@@ -41,9 +41,9 @@ export declare class TrackHistoryEntry extends Message<TrackHistoryEntry> {
  */
 export declare class ListTrackHistoryRequest extends Message<ListTrackHistoryRequest> {
   /**
-   * @generated from field: string user_id = 1;
+   * @generated from field: uint64 user_id = 1;
    */
-  userId: string;
+  userId: bigint;
 
   /**
    * @generated from field: int64 start = 2;

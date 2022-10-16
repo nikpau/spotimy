@@ -4,12 +4,14 @@ importers:
 
   .:
     specifiers:
+      '@bufbuild/protobuf': ^0.1.1
       '@bufbuild/protoc-gen-connect-web': ^0.2.1
       '@bufbuild/protoc-gen-es': ^0.1.1
       ts-proto: ^1.112.0
     devDependencies:
+      '@bufbuild/protobuf': 0.1.1
       '@bufbuild/protoc-gen-connect-web': 0.2.1_y5vwdj55djazclrpavrgwbz7g4
-      '@bufbuild/protoc-gen-es': 0.1.1
+      '@bufbuild/protoc-gen-es': 0.1.1_@bufbuild+protobuf@0.1.1
       ts-proto: 1.126.1
 
   api/javascript:
@@ -40,11 +42,17 @@ importers:
       '@spotimy/api-web': workspace:^0.0.0
       '@sveltejs/adapter-auto': next
       '@sveltejs/kit': next
+      '@types/cookie': ^0.5.1
+      '@types/luxon': ^3.0.1
+      '@types/node': ^18.7.23
       '@typescript-eslint/eslint-plugin': ^5.27.0
       '@typescript-eslint/parser': ^5.27.0
+      base64url: ^3.0.1
       eslint: ^8.16.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-svelte3: ^4.0.0
+      fuse.js: ^6.6.2
+      luxon: ^3.0.4
       nice-grpc: ^2.0.0
       prettier: ^2.6.2
       prettier-plugin-svelte: ^2.7.0
@@ -60,12 +68,18 @@ importers:
       '@bufbuild/protobuf': 0.1.1
       '@spotimy/api': link:../../api/javascript
       '@spotimy/api-web': link:../../api/web
+      base64url: 3.0.1
+      fuse.js: 6.6.2
+      luxon: 3.0.4
       nice-grpc: 2.0.0
       protobufjs: 7.1.2
     devDependencies:
       '@playwright/test': 1.26.1
       '@sveltejs/adapter-auto': 1.0.0-next.83
       '@sveltejs/kit': 1.0.0-next.516_svelte@3.50.1+vite@3.1.4
+      '@types/cookie': 0.5.1
+      '@types/luxon': 3.0.1
+      '@types/node': 18.8.2
       '@typescript-eslint/eslint-plugin': 5.39.0_xyciw6oqjoiiono4dhv3uhn5my
       '@typescript-eslint/parser': 5.39.0_ypn2ylkkyfa5i233caldtndbqa
       eslint: 8.24.0
@@ -154,11 +168,11 @@ packages:
       '@bufbuild/protoc-gen-es':
         optional: true
     dependencies:
-      '@bufbuild/protoc-gen-es': 0.1.1
+      '@bufbuild/protoc-gen-es': 0.1.1_@bufbuild+protobuf@0.1.1
       '@bufbuild/protoplugin': 0.1.1
     dev: true
 
-  /@bufbuild/protoc-gen-es/0.1.1:
+  /@bufbuild/protoc-gen-es/0.1.1_@bufbuild+protobuf@0.1.1:
     resolution: {integrity: sha512-FFY8GfbMgcgN/nt4DtB+IiLvLmfGjQ7dKYVb6ciKCMymXx5MsRxs4xnJXHtpEv2rDVpDYCOhPkjri8o4AYeSPQ==}
     engines: {node: '>=14'}
     hasBin: true
@@ -168,6 +182,7 @@ packages:
       '@bufbuild/protobuf':
         optional: true
     dependencies:
+      '@bufbuild/protobuf': 0.1.1
       '@bufbuild/protoplugin': 0.1.1
     dev: true
 
@@ -533,6 +548,10 @@ packages:
   /@types/long/4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
 
+  /@types/luxon/3.0.1:
+    resolution: {integrity: sha512-/LAvk1cMOJt0ghzMFrZEvByUhsiEfeeT2IF53Le+Ki3A538yEL9pRZ7a6MuCxdrYK+YNqNIDmrKU/r2nnw04zQ==}
+    dev: true
+
   /@types/node/18.8.2:
     resolution: {integrity: sha512-cRMwIgdDN43GO4xMWAfJAecYn8wV4JbsOGHNfNUIDiuYkUYAR5ec4Rj7IO2SAhFPEfpPtLtUTbbny/TCT7aDwA==}
 
@@ -791,6 +810,11 @@ packages:
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
+
+  /base64url/3.0.1:
+    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -1489,6 +1513,11 @@ packages:
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
     dev: true
+
+  /fuse.js/6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /gauge/3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}

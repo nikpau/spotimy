@@ -12,7 +12,7 @@ export interface TrackHistoryEntry {
 }
 
 export interface ListTrackHistoryRequest {
-  userId: string;
+  userId: number;
   start: number;
   end: number;
   limit: number;
@@ -83,13 +83,13 @@ export const TrackHistoryEntry = {
 };
 
 function createBaseListTrackHistoryRequest(): ListTrackHistoryRequest {
-  return { userId: "", start: 0, end: 0, limit: 0, pageToken: "" };
+  return { userId: 0, start: 0, end: 0, limit: 0, pageToken: "" };
 }
 
 export const ListTrackHistoryRequest = {
   encode(message: ListTrackHistoryRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.userId !== "") {
-      writer.uint32(10).string(message.userId);
+    if (message.userId !== 0) {
+      writer.uint32(8).uint64(message.userId);
     }
     if (message.start !== 0) {
       writer.uint32(16).int64(message.start);
@@ -114,7 +114,7 @@ export const ListTrackHistoryRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.userId = reader.string();
+          message.userId = longToNumber(reader.uint64() as Long);
           break;
         case 2:
           message.start = longToNumber(reader.int64() as Long);
@@ -138,7 +138,7 @@ export const ListTrackHistoryRequest = {
 
   fromJSON(object: any): ListTrackHistoryRequest {
     return {
-      userId: isSet(object.userId) ? String(object.userId) : "",
+      userId: isSet(object.userId) ? Number(object.userId) : 0,
       start: isSet(object.start) ? Number(object.start) : 0,
       end: isSet(object.end) ? Number(object.end) : 0,
       limit: isSet(object.limit) ? Number(object.limit) : 0,
@@ -148,7 +148,7 @@ export const ListTrackHistoryRequest = {
 
   toJSON(message: ListTrackHistoryRequest): unknown {
     const obj: any = {};
-    message.userId !== undefined && (obj.userId = message.userId);
+    message.userId !== undefined && (obj.userId = Math.round(message.userId));
     message.start !== undefined && (obj.start = Math.round(message.start));
     message.end !== undefined && (obj.end = Math.round(message.end));
     message.limit !== undefined && (obj.limit = Math.round(message.limit));
@@ -158,7 +158,7 @@ export const ListTrackHistoryRequest = {
 
   fromPartial(object: DeepPartial<ListTrackHistoryRequest>): ListTrackHistoryRequest {
     const message = createBaseListTrackHistoryRequest();
-    message.userId = object.userId ?? "";
+    message.userId = object.userId ?? 0;
     message.start = object.start ?? 0;
     message.end = object.end ?? 0;
     message.limit = object.limit ?? 0;

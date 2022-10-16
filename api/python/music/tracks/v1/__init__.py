@@ -22,10 +22,11 @@ if TYPE_CHECKING:
 
 @dataclass(eq=False, repr=False)
 class Track(betterproto.Message):
-    name: int = betterproto.int64_field(1)
-    artist_id: str = betterproto.string_field(2)
-    bpm: int = betterproto.int32_field(3)
-    genres: List[str] = betterproto.string_field(4)
+    id: int = betterproto.uint64_field(1)
+    name: str = betterproto.string_field(2)
+    artist_id: str = betterproto.string_field(3)
+    bpm: int = betterproto.int32_field(4)
+    genres: List[str] = betterproto.string_field(5)
 
 
 @dataclass(eq=False, repr=False)
@@ -46,7 +47,7 @@ class TrackHistoryEntry(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class ListTrackHistoryRequest(betterproto.Message):
-    user_id: str = betterproto.string_field(1)
+    user_id: int = betterproto.uint64_field(1)
     start: int = betterproto.int64_field(2)
     end: int = betterproto.int64_field(3)
     limit: int = betterproto.int32_field(4)

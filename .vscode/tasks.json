@@ -98,6 +98,13 @@
       "script": "dev",
       "path": "components/user",
       "problemMatcher": []
+    },
+    {
+      "label": "User: Generate DB client",
+      "type": "npm",
+      "script": "prisma:generate",
+      "path": "components/user",
+      "problemMatcher": []
     }
   ]
 }

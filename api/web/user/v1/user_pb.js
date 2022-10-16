@@ -4,6 +4,7 @@
 /* @ts-nocheck */
 
 import {proto3} from "@bufbuild/protobuf";
+import {SpotifyToken} from "./spotify_pb.js";
 
 /**
  * @generated from message user.v1.User
@@ -11,7 +12,7 @@ import {proto3} from "@bufbuild/protobuf";
 export const User = proto3.makeMessageType(
   "user.v1.User",
   () => [
-    { no: 1, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
@@ -23,7 +24,8 @@ export const User = proto3.makeMessageType(
 export const GetUserRequest = proto3.makeMessageType(
   "user.v1.GetUserRequest",
   () => [
-    { no: 1, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "user_id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
+    { no: 2, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
@@ -34,6 +36,38 @@ export const GetUserResponse = proto3.makeMessageType(
   "user.v1.GetUserResponse",
   () => [
     { no: 1, name: "user", kind: "message", T: User },
+  ],
+);
+
+/**
+ * @generated from message user.v1.ListUsersRequest
+ */
+export const ListUsersRequest = proto3.makeMessageType(
+  "user.v1.ListUsersRequest",
+  [],
+);
+
+/**
+ * @generated from message user.v1.ListUsersResponse
+ */
+export const ListUsersResponse = proto3.makeMessageType(
+  "user.v1.ListUsersResponse",
+  () => [
+    { no: 1, name: "users", kind: "message", T: User, repeated: true },
+    { no: 2, name: "next_page_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ],
+);
+
+/**
+ * @generated from message user.v1.CreateUserRequest
+ */
+export const CreateUserRequest = proto3.makeMessageType(
+  "user.v1.CreateUserRequest",
+  () => [
+    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "auth_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "spotify_token", kind: "message", T: SpotifyToken },
   ],
 );
 

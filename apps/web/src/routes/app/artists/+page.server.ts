@@ -1,8 +1,9 @@
-import { API } from '$lib/service/index.js'
+import { artistClient } from '$lib/api.js'
 import type { PageServerLoad } from './$types.js'
 
 export const load: PageServerLoad = async (data) => {
+  const response = await artistClient.listArtists({})
   return {
-    artists: await API.artists.list_my_artists()
+    artists: response.artists
   }
 }

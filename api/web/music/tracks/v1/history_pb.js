@@ -23,7 +23,7 @@ export const TrackHistoryEntry = proto3.makeMessageType(
 export const ListTrackHistoryRequest = proto3.makeMessageType(
   "music.tracks.v1.ListTrackHistoryRequest",
   () => [
-    { no: 1, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "user_id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
     { no: 2, name: "start", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
     { no: 3, name: "end", kind: "scalar", T: 3 /* ScalarType.INT64 */ },
     { no: 4, name: "limit", kind: "scalar", T: 5 /* ScalarType.INT32 */ },

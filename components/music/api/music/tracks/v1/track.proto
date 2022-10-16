@@ -9,10 +9,11 @@ service TrackService {
 }
 
 message Track {
-  int64 name = 1;
-  string artist_id = 2;
-  int32 bpm = 3;
-  repeated string genres = 4;
+  uint64 id = 1;
+  string name = 2;
+  string artist_id = 3;
+  int32 bpm = 4;
+  repeated string genres = 5;
 }
 
 message ListTracksRequest {
