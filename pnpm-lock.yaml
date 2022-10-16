@@ -111,14 +111,22 @@ importers:
 
   components/user:
     specifiers:
+      '@faker-js/faker': ^7.6.0
+      '@prisma/client': ^4.4.0
       '@spotimy/api': workspace:^0.0.0
       concurrently: ^7.4.0
+      nice-grpc: ^2.0.0
       nodemon: ^2.0.20
+      prisma: ^4.4.0
     dependencies:
+      '@faker-js/faker': 7.6.0
+      '@prisma/client': 4.4.0_prisma@4.4.0
       '@spotimy/api': link:../../api/javascript
+      nice-grpc: 2.0.0
     devDependencies:
       concurrently: 7.4.0
       nodemon: 2.0.20
+      prisma: 4.4.0
 
 packages:
 

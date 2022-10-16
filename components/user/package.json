@@ -1,20 +1,26 @@
 {
   "name": "@spotimy/user",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
+  "version": "0.0.0",
+  "description": "User microservice for Spotimy",
+  "type": "module",
+  "main": "dist/index.js",
+  "author": "Nick Lehmann <nick@lehmann.sh>",
   "license": "ISC",
-  "dependencies": {
-    "@spotimy/api": "workspace:^0.0.0"
-  },
   "scripts": {
     "build": "tsc",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@prisma/client": "^4.4.0",
+    "@spotimy/api": "workspace:^0.0.0",
+    "nice-grpc": "^2.0.0"
   },
   "devDependencies": {
     "concurrently": "^7.4.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "prisma": "^4.4.0"
   }
 }
