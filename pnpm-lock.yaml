@@ -97,7 +97,7 @@ importers:
   components/music:
     specifiers:
       '@faker-js/faker': ^7.6.0
-      '@prisma/client': ^4.4.0
+      '@prisma/client': 4.3.0
       '@spotimy/api': workspace:0.0.0
       '@types/google-protobuf': ^3.15.6
       '@types/node': ^18.8.2
@@ -110,7 +110,7 @@ importers:
       typescript: ^4.8.4
     dependencies:
       '@faker-js/faker': 7.6.0
-      '@prisma/client': 4.4.0_prisma@4.4.0
+      '@prisma/client': 4.3.0_prisma@4.4.0
       '@spotimy/api': link:../../api/javascript
       luxon: 3.0.4
       nice-grpc: 2.0.0
@@ -366,6 +366,20 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
+  /@prisma/client/4.3.0_prisma@4.4.0:
+    resolution: {integrity: sha512-xCjLAOIOqVdjD+UZbUwx5dFocUmdsrMQFe0jXUswTUgc76NOQVh0L7Z+FCkNCVVZ9RSBfEFX22061Sa02OuPAQ==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b
+      prisma: 4.4.0
+    dev: false
+
   /@prisma/client/4.4.0_prisma@4.4.0:
     resolution: {integrity: sha512-ciKOP246x1xwr04G9ajHlJ4pkmtu9Q6esVyqVBO0QJihaKQIUvbPjClp17IsRJyxqNpFm4ScbOc/s9DUzKHINQ==}
     engines: {node: '>=14.17'}
@@ -378,6 +392,10 @@ packages:
     dependencies:
       '@prisma/engines-version': 4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6
       prisma: 4.4.0
+    dev: false
+
+  /@prisma/engines-version/4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b:
+    resolution: {integrity: sha512-8yWpXkQRmiSfsi2Wb/ZS5D3RFbeu/btL9Pm/gdF4phB0Lo5KGsDFMxFMgaD64mwED2nHc8ZaEJg/+4Jymb9Znw==}
     dev: false
 
   /@prisma/engines-version/4.4.0-66.f352a33b70356f46311da8b00d83386dd9f145d6:
