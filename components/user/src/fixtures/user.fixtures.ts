@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import type { PrismaClient, User } from '@prisma/client'
+import { PrismaClient, User } from '@prisma/client'
 
 export async function createUserFixtures(prismaClient: PrismaClient, n: number): Promise<User[]> {
   const users: User[] = []
@@ -12,5 +12,6 @@ export async function createUserFixtures(prismaClient: PrismaClient, n: number):
     })
     users.push(new_user)
   }
+
   return users
 }

@@ -14,6 +14,7 @@ export const Artist = proto3.makeMessageType(
     { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "images", kind: "message", T: Image, repeated: true },
+    { no: 4, name: "counts", kind: "message", T: ArtistCounts },
   ],
 );
 
@@ -26,6 +27,17 @@ export const Image = proto3.makeMessageType(
     { no: 1, name: "url", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "width", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 3, name: "height", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ],
+);
+
+/**
+ * @generated from message music.artists.v1.ArtistCounts
+ */
+export const ArtistCounts = proto3.makeMessageType(
+  "music.artists.v1.ArtistCounts",
+  () => [
+    { no: 1, name: "in_liked_songs", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "in_playlists", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ],
 );
 

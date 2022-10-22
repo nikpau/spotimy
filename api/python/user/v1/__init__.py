@@ -36,17 +36,14 @@ class User(betterproto.Message):
     id: int = betterproto.uint64_field(1)
     name: str = betterproto.string_field(2)
     email: str = betterproto.string_field(3)
+    auth_token: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)
 class GetUserRequest(betterproto.Message):
     user_id: int = betterproto.uint64_field(1)
     email: str = betterproto.string_field(2)
-
-
-@dataclass(eq=False, repr=False)
-class GetUserResponse(betterproto.Message):
-    user: "User" = betterproto.message_field(1)
+    auth_token: str = betterproto.string_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -64,7 +61,6 @@ class ListUsersResponse(betterproto.Message):
 class CreateUserRequest(betterproto.Message):
     name: str = betterproto.string_field(1)
     email: str = betterproto.string_field(2)
-    auth_token: str = betterproto.string_field(3)
     spotify_token: "SpotifyToken" = betterproto.message_field(4)
 
 
@@ -76,11 +72,11 @@ class UserServiceStub(betterproto.ServiceStub):
         timeout: Optional[float] = None,
         deadline: Optional["Deadline"] = None,
         metadata: Optional["MetadataLike"] = None
-    ) -> "GetUserResponse":
+    ) -> "User":
         return await self._unary_unary(
             "/user.v1.UserService/GetUser",
             get_user_request,
-            GetUserResponse,
+            User,
             timeout=timeout,
             deadline=deadline,
             metadata=metadata,
@@ -122,7 +118,7 @@ class UserServiceStub(betterproto.ServiceStub):
 
 
 class UserServiceBase(ServiceBase):
-    async def get_user(self, get_user_request: "GetUserRequest") -> "GetUserResponse":
+    async def get_user(self, get_user_request: "GetUserRequest") -> "User":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def list_users(
@@ -134,7 +130,7 @@ class UserServiceBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_get_user(
-        self, stream: "grpclib.server.Stream[GetUserRequest, GetUserResponse]"
+        self, stream: "grpclib.server.Stream[GetUserRequest, User]"
     ) -> None:
         request = await stream.recv_message()
         response = await self.get_user(request)
@@ -160,7 +156,7 @@ class UserServiceBase(ServiceBase):
                 self.__rpc_get_user,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 GetUserRequest,
-                GetUserResponse,
+                User,
             ),
             "/user.v1.UserService/ListUsers": grpclib.const.Handler(
                 self.__rpc_list_users,

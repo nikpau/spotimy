@@ -10,15 +10,13 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  authToken: string;
 }
 
 export interface GetUserRequest {
   userId: number;
   email: string;
-}
-
-export interface GetUserResponse {
-  user: User | undefined;
+  authToken: string;
 }
 
 export interface ListUsersRequest {
@@ -32,12 +30,11 @@ export interface ListUsersResponse {
 export interface CreateUserRequest {
   name: string;
   email: string;
-  authToken: string;
   spotifyToken: SpotifyToken | undefined;
 }
 
 function createBaseUser(): User {
-  return { id: 0, name: "", email: "" };
+  return { id: 0, name: "", email: "", authToken: "" };
 }
 
 export const User = {
@@ -50,6 +47,9 @@ export const User = {
     }
     if (message.email !== "") {
       writer.uint32(26).string(message.email);
+    }
+    if (message.authToken !== "") {
+      writer.uint32(34).string(message.authToken);
     }
     return writer;
   },
@@ -70,6 +70,9 @@ export const User = {
         case 3:
           message.email = reader.string();
           break;
+        case 4:
+          message.authToken = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -83,6 +86,7 @@ export const User = {
       id: isSet(object.id) ? Number(object.id) : 0,
       name: isSet(object.name) ? String(object.name) : "",
       email: isSet(object.email) ? String(object.email) : "",
+      authToken: isSet(object.authToken) ? String(object.authToken) : "",
     };
   },
 
@@ -91,6 +95,7 @@ export const User = {
     message.id !== undefined && (obj.id = Math.round(message.id));
     message.name !== undefined && (obj.name = message.name);
     message.email !== undefined && (obj.email = message.email);
+    message.authToken !== undefined && (obj.authToken = message.authToken);
     return obj;
   },
 
@@ -99,12 +104,13 @@ export const User = {
     message.id = object.id ?? 0;
     message.name = object.name ?? "";
     message.email = object.email ?? "";
+    message.authToken = object.authToken ?? "";
     return message;
   },
 };
 
 function createBaseGetUserRequest(): GetUserRequest {
-  return { userId: 0, email: "" };
+  return { userId: 0, email: "", authToken: "" };
 }
 
 export const GetUserRequest = {
@@ -114,6 +120,9 @@ export const GetUserRequest = {
     }
     if (message.email !== "") {
       writer.uint32(18).string(message.email);
+    }
+    if (message.authToken !== "") {
+      writer.uint32(26).string(message.authToken);
     }
     return writer;
   },
@@ -131,6 +140,9 @@ export const GetUserRequest = {
         case 2:
           message.email = reader.string();
           break;
+        case 3:
+          message.authToken = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -143,6 +155,7 @@ export const GetUserRequest = {
     return {
       userId: isSet(object.userId) ? Number(object.userId) : 0,
       email: isSet(object.email) ? String(object.email) : "",
+      authToken: isSet(object.authToken) ? String(object.authToken) : "",
     };
   },
 
@@ -150,6 +163,7 @@ export const GetUserRequest = {
     const obj: any = {};
     message.userId !== undefined && (obj.userId = Math.round(message.userId));
     message.email !== undefined && (obj.email = message.email);
+    message.authToken !== undefined && (obj.authToken = message.authToken);
     return obj;
   },
 
@@ -157,53 +171,7 @@ export const GetUserRequest = {
     const message = createBaseGetUserRequest();
     message.userId = object.userId ?? 0;
     message.email = object.email ?? "";
-    return message;
-  },
-};
-
-function createBaseGetUserResponse(): GetUserResponse {
-  return { user: undefined };
-}
-
-export const GetUserResponse = {
-  encode(message: GetUserResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.user !== undefined) {
-      User.encode(message.user, writer.uint32(10).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): GetUserResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseGetUserResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.user = User.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): GetUserResponse {
-    return { user: isSet(object.user) ? User.fromJSON(object.user) : undefined };
-  },
-
-  toJSON(message: GetUserResponse): unknown {
-    const obj: any = {};
-    message.user !== undefined && (obj.user = message.user ? User.toJSON(message.user) : undefined);
-    return obj;
-  },
-
-  fromPartial(object: DeepPartial<GetUserResponse>): GetUserResponse {
-    const message = createBaseGetUserResponse();
-    message.user = (object.user !== undefined && object.user !== null) ? User.fromPartial(object.user) : undefined;
+    message.authToken = object.authToken ?? "";
     return message;
   },
 };
@@ -310,7 +278,7 @@ export const ListUsersResponse = {
 };
 
 function createBaseCreateUserRequest(): CreateUserRequest {
-  return { name: "", email: "", authToken: "", spotifyToken: undefined };
+  return { name: "", email: "", spotifyToken: undefined };
 }
 
 export const CreateUserRequest = {
@@ -320,9 +288,6 @@ export const CreateUserRequest = {
     }
     if (message.email !== "") {
       writer.uint32(18).string(message.email);
-    }
-    if (message.authToken !== "") {
-      writer.uint32(26).string(message.authToken);
     }
     if (message.spotifyToken !== undefined) {
       SpotifyToken.encode(message.spotifyToken, writer.uint32(34).fork()).ldelim();
@@ -343,9 +308,6 @@ export const CreateUserRequest = {
         case 2:
           message.email = reader.string();
           break;
-        case 3:
-          message.authToken = reader.string();
-          break;
         case 4:
           message.spotifyToken = SpotifyToken.decode(reader, reader.uint32());
           break;
@@ -361,7 +323,6 @@ export const CreateUserRequest = {
     return {
       name: isSet(object.name) ? String(object.name) : "",
       email: isSet(object.email) ? String(object.email) : "",
-      authToken: isSet(object.authToken) ? String(object.authToken) : "",
       spotifyToken: isSet(object.spotifyToken) ? SpotifyToken.fromJSON(object.spotifyToken) : undefined,
     };
   },
@@ -370,7 +331,6 @@ export const CreateUserRequest = {
     const obj: any = {};
     message.name !== undefined && (obj.name = message.name);
     message.email !== undefined && (obj.email = message.email);
-    message.authToken !== undefined && (obj.authToken = message.authToken);
     message.spotifyToken !== undefined &&
       (obj.spotifyToken = message.spotifyToken ? SpotifyToken.toJSON(message.spotifyToken) : undefined);
     return obj;
@@ -380,7 +340,6 @@ export const CreateUserRequest = {
     const message = createBaseCreateUserRequest();
     message.name = object.name ?? "";
     message.email = object.email ?? "";
-    message.authToken = object.authToken ?? "";
     message.spotifyToken = (object.spotifyToken !== undefined && object.spotifyToken !== null)
       ? SpotifyToken.fromPartial(object.spotifyToken)
       : undefined;
@@ -397,7 +356,7 @@ export const UserServiceDefinition = {
       name: "GetUser",
       requestType: GetUserRequest,
       requestStream: false,
-      responseType: GetUserResponse,
+      responseType: User,
       responseStream: false,
       options: {},
     },
@@ -421,13 +380,13 @@ export const UserServiceDefinition = {
 } as const;
 
 export interface UserServiceServiceImplementation<CallContextExt = {}> {
-  getUser(request: GetUserRequest, context: CallContext & CallContextExt): Promise<DeepPartial<GetUserResponse>>;
+  getUser(request: GetUserRequest, context: CallContext & CallContextExt): Promise<DeepPartial<User>>;
   listUsers(request: ListUsersRequest, context: CallContext & CallContextExt): Promise<DeepPartial<ListUsersResponse>>;
   createUser(request: CreateUserRequest, context: CallContext & CallContextExt): Promise<DeepPartial<User>>;
 }
 
 export interface UserServiceClient<CallOptionsExt = {}> {
-  getUser(request: DeepPartial<GetUserRequest>, options?: CallOptions & CallOptionsExt): Promise<GetUserResponse>;
+  getUser(request: DeepPartial<GetUserRequest>, options?: CallOptions & CallOptionsExt): Promise<User>;
   listUsers(request: DeepPartial<ListUsersRequest>, options?: CallOptions & CallOptionsExt): Promise<ListUsersResponse>;
   createUser(request: DeepPartial<CreateUserRequest>, options?: CallOptions & CallOptionsExt): Promise<User>;
 }

@@ -26,6 +26,11 @@ export declare class User extends Message<User> {
    */
   email: string;
 
+  /**
+   * @generated from field: string auth_token = 4;
+   */
+  authToken: string;
+
   constructor(data?: PartialMessage<User>);
 
   static readonly runtime: typeof proto3;
@@ -55,6 +60,11 @@ export declare class GetUserRequest extends Message<GetUserRequest> {
    */
   email: string;
 
+  /**
+   * @generated from field: string auth_token = 3;
+   */
+  authToken: string;
+
   constructor(data?: PartialMessage<GetUserRequest>);
 
   static readonly runtime: typeof proto3;
@@ -68,30 +78,6 @@ export declare class GetUserRequest extends Message<GetUserRequest> {
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserRequest;
 
   static equals(a: GetUserRequest | PlainMessage<GetUserRequest> | undefined, b: GetUserRequest | PlainMessage<GetUserRequest> | undefined): boolean;
-}
-
-/**
- * @generated from message user.v1.GetUserResponse
- */
-export declare class GetUserResponse extends Message<GetUserResponse> {
-  /**
-   * @generated from field: user.v1.User user = 1;
-   */
-  user?: User;
-
-  constructor(data?: PartialMessage<GetUserResponse>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "user.v1.GetUserResponse";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserResponse;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserResponse;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserResponse;
-
-  static equals(a: GetUserResponse | PlainMessage<GetUserResponse> | undefined, b: GetUserResponse | PlainMessage<GetUserResponse> | undefined): boolean;
 }
 
 /**
@@ -155,11 +141,6 @@ export declare class CreateUserRequest extends Message<CreateUserRequest> {
    * @generated from field: string email = 2;
    */
   email: string;
-
-  /**
-   * @generated from field: string auth_token = 3;
-   */
-  authToken: string;
 
   /**
    * @generated from field: user.v1.SpotifyToken spotify_token = 4;

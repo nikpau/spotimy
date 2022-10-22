@@ -25,6 +25,7 @@ class Artist(betterproto.Message):
     id: str = betterproto.string_field(1)
     name: str = betterproto.string_field(2)
     images: List["Image"] = betterproto.message_field(3)
+    counts: "ArtistCounts" = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -32,6 +33,12 @@ class Image(betterproto.Message):
     url: str = betterproto.string_field(1)
     width: int = betterproto.int32_field(2)
     height: int = betterproto.int32_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class ArtistCounts(betterproto.Message):
+    in_liked_songs: int = betterproto.int32_field(1)
+    in_playlists: int = betterproto.int32_field(2)
 
 
 @dataclass(eq=False, repr=False)

@@ -3,7 +3,7 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {CreateUserRequest, GetUserRequest, GetUserResponse, ListUsersRequest, ListUsersResponse, User} from "./user_pb.js";
+import {CreateUserRequest, GetUserRequest, ListUsersRequest, ListUsersResponse, User} from "./user_pb.js";
 import {MethodKind} from "@bufbuild/protobuf";
 
 /**
@@ -18,7 +18,7 @@ export const UserService = {
     getUser: {
       name: "GetUser",
       I: GetUserRequest,
-      O: GetUserResponse,
+      O: User,
       kind: MethodKind.Unary,
     },
     /**

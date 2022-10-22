@@ -11,7 +11,7 @@ import { CallContext } from 'nice-grpc'
 type Artist = APIArtist
 
 export class ArtistService implements ArtistServiceServiceImplementation {
-  constructor(private readonly storage: db.PrismaClient) {}
+  constructor(private readonly storage?: db.PrismaClient) {}
 
   async listArtists(
     request: ListArtistsRequest,
@@ -19,7 +19,7 @@ export class ArtistService implements ArtistServiceServiceImplementation {
   ): Promise<DeepPartial<ListArtistsResponse>> {
     console.debug('Incoming call to listArtists')
 
-    const artists = await this.storage.artist.findMany()
+    const artists = await this.storage!.artist.findMany()
     return {
       artists: artists.map(fromStorage)
     }
@@ -30,6 +30,10 @@ function fromStorage(dbArtist: db.Artist): Artist {
   return {
     id: dbArtist.id.toString(),
     name: dbArtist.name,
-    images: []
+    images: [],
+    counts: {
+      inLikedSongs: 0,
+      inPlaylists: 0
+    }
   }
 }

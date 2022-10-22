@@ -13,6 +13,7 @@ type Config struct {
 // Config to connect to all external services.
 type ServicesConfig struct {
 	Artists ServiceConnectionConfig
+	Users   ServiceConnectionConfig
 }
 
 // Information needed to successfully connect to a service.
@@ -22,5 +23,5 @@ type ServiceConnectionConfig struct {
 }
 
 func (sc *ServiceConnectionConfig) URL() string {
-	return fmt.Sprintf("%s:%d", sc.Host, sc.Port)
+	return fmt.Sprintf("http://%s:%d", sc.Host, sc.Port)
 }

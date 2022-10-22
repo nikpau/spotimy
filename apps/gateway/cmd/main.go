@@ -10,6 +10,7 @@ import (
 	"github.com/nikpau/spotimy/apps/gateway/cmd/config"
 	"github.com/nikpau/spotimy/apps/gateway/internal/api"
 	"github.com/nikpau/spotimy/apps/gateway/internal/api/music/v1"
+	"github.com/nikpau/spotimy/apps/gateway/internal/api/user/v1"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )
@@ -22,6 +23,10 @@ func main() {
 				Host: "localhost",
 				Port: 50010,
 			},
+			Users: config.ServiceConnectionConfig{
+				Host: "localhost",
+				Port: 50012,
+			},
 		},
 		ServerReflection: true,
 	}
@@ -31,6 +36,7 @@ func main() {
 
 	components := []api.Component{
 		music.RegisterArtistComponent(config.Services.Artists.URL(), httpClient),
+		user.RegisterUserComponent(config.Services.Users.URL(), httpClient),
 	}
 
 	// Register all components.
@@ -42,8 +48,10 @@ func main() {
 	// Enable server reflection for all components if enabled.
 	if config.ServerReflection {
 		serviceNames := make([]string, len(components))
+		fmt.Println("Register for server reflection:")
 		for _, component := range components {
 			serviceNames = append(serviceNames, component.ServiceName)
+			fmt.Printf("- %s\n", component.ServiceName)
 		}
 
 		reflector := grpcreflect.NewStaticReflector()
@@ -54,11 +62,14 @@ func main() {
 	}
 
 	fmt.Println("Starting server...")
-	http.ListenAndServe(
-		fmt.Sprintf("127.0.0.1:%d", config.Port),
+	err := http.ListenAndServe(
+		fmt.Sprintf("0.0.0.0:50002"),
 		// Use h2c so we can serve HTTP/2 without TLS.
 		h2c.NewHandler(multiplexer, &http2.Server{}),
 	)
+	if err != nil {
+		fmt.Printf("Error starting server: %s", err)
+	}
 }
 
 func getHTTPClient() http.Client {

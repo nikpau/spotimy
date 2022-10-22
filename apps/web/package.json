@@ -41,8 +41,9 @@
     "@spotimy/api-web": "workspace:^0.0.0",
     "base64url": "^3.0.1",
     "fuse.js": "^6.6.2",
-    "nice-grpc": "^2.0.0",
     "luxon": "^3.0.4",
-    "protobufjs": "^7.1.2"
+    "nice-grpc": "^2.0.0",
+    "protobufjs": "^7.1.2",
+    "spotify-web-api-ts": "^1.4.5"
   }
 }

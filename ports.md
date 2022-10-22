@@ -8,3 +8,4 @@ Gateway   50002
 
 Music     50010
 Scraper   50011
+User      50012

@@ -25,6 +25,11 @@ export declare class Artist extends Message<Artist> {
    */
   images: Image[];
 
+  /**
+   * @generated from field: music.artists.v1.ArtistCounts counts = 4;
+   */
+  counts?: ArtistCounts;
+
   constructor(data?: PartialMessage<Artist>);
 
   static readonly runtime: typeof proto3;
@@ -72,6 +77,35 @@ export declare class Image extends Message<Image> {
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Image;
 
   static equals(a: Image | PlainMessage<Image> | undefined, b: Image | PlainMessage<Image> | undefined): boolean;
+}
+
+/**
+ * @generated from message music.artists.v1.ArtistCounts
+ */
+export declare class ArtistCounts extends Message<ArtistCounts> {
+  /**
+   * @generated from field: int32 in_liked_songs = 1;
+   */
+  inLikedSongs: number;
+
+  /**
+   * @generated from field: int32 in_playlists = 2;
+   */
+  inPlaylists: number;
+
+  constructor(data?: PartialMessage<ArtistCounts>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "music.artists.v1.ArtistCounts";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ArtistCounts;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ArtistCounts;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ArtistCounts;
+
+  static equals(a: ArtistCounts | PlainMessage<ArtistCounts> | undefined, b: ArtistCounts | PlainMessage<ArtistCounts> | undefined): boolean;
 }
 
 /**

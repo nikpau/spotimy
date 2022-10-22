@@ -15,6 +15,7 @@ export const User = proto3.makeMessageType(
     { no: 1, name: "id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "auth_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
@@ -26,16 +27,7 @@ export const GetUserRequest = proto3.makeMessageType(
   () => [
     { no: 1, name: "user_id", kind: "scalar", T: 4 /* ScalarType.UINT64 */ },
     { no: 2, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ],
-);
-
-/**
- * @generated from message user.v1.GetUserResponse
- */
-export const GetUserResponse = proto3.makeMessageType(
-  "user.v1.GetUserResponse",
-  () => [
-    { no: 1, name: "user", kind: "message", T: User },
+    { no: 3, name: "auth_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
@@ -66,7 +58,6 @@ export const CreateUserRequest = proto3.makeMessageType(
   () => [
     { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "auth_token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "spotify_token", kind: "message", T: SpotifyToken },
   ],
 );
