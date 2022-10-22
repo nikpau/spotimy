@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { spotifyWeb } from '$lib/spotify/web.js';
-	import type { Artist } from '@spotimy/api-web/music/artists/v1/artist_pb.js';
+	import { spotifyWeb } from '$lib/spotify/web.js'
+	import type { Artist } from '@spotimy/api-web/music/artists/v1/artist_pb.js'
 
-	export let artist: Artist;
+	export let artist: Artist
 </script>
 
 <div class="artist">

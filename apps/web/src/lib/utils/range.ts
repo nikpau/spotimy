@@ -1,4 +1,4 @@
 export type Range<Value> = {
-  min: Value | undefined
-  max: Value | undefined
+	min: Value | undefined
+	max: Value | undefined
 }

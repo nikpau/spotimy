@@ -1,20 +1,20 @@
 <script lang="ts">
-	import ArtistItem from './ArtistItem.svelte';
-	import Fuse from 'fuse.js';
-	import type { PageData } from './$types.js';
-	import type { Artist } from '@spotimy/api-web/music/artists/v1/artist_pb.js';
+	import ArtistItem from './ArtistItem.svelte'
+	import Fuse from 'fuse.js'
+	import type { PageData } from './$types.js'
+	import type { Artist } from '@spotimy/api-web/music/artists/v1/artist_pb.js'
 
-	export let data: PageData;
+	export let data: PageData
 
-	let allArtists: Artist[] = data.artists;
-	let needle = '';
+	let allArtists: Artist[] = data.artists
+	let needle = ''
 	let fuse: Fuse<Artist> = new Fuse(allArtists, {
 		keys: ['name']
-	});
+	})
 
 	function filter(searchTerm: string): Artist[] {
-		if (!fuse || searchTerm === '') return allArtists;
-		return fuse.search(searchTerm).map((result) => result.item);
+		if (!fuse || searchTerm === '') return allArtists
+		return fuse.search(searchTerm).map((result) => result.item)
 	}
 </script>
 

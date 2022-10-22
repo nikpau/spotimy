@@ -3,8 +3,8 @@
 // and what to do when importing types
 declare namespace App {
 	interface Locals {
-    user_id: bigint
-  }
+		user_id: bigint
+	}
 	// interface PageData {}
 	// interface Error {}
 	// interface Platform {}
