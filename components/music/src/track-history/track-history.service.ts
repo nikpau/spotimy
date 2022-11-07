@@ -13,8 +13,9 @@ export class TrackHistoryService implements TrackHistoryServiceServiceImplementa
   constructor(private readonly storage: db.PrismaClient) {}
 
   async listTrackHistory(
-    request: ListTrackHistoryRequest, context: CallContext): Promise<ListTrackHistoryResponse> 
-  {
+    request: ListTrackHistoryRequest, 
+    context: CallContext
+  ): Promise<ListTrackHistoryResponse> {
     const { userId, start, end, limit, pageToken: cursor } = request
     console.debug('Query track history', { userId, start, end, limit, cursor })
 
@@ -31,13 +32,13 @@ export class TrackHistoryService implements TrackHistoryServiceServiceImplementa
       }
     }
 
-    if (cursor !== undefined)
-      args.cursor = {
-        userId_timestamp: {
-          userId,
-          timestamp: cursor
-        }
-      }
+    // if (cursor !== undefined)
+    //   args.cursor = {
+    //     userId_timestamp: {
+    //       userId,
+    //       timestamp: cursor
+    //     }
+    //   }
 
     if (limit != undefined) args.take = limit
 

@@ -49,9 +49,17 @@ func (s *UsersServer) ListUsers(
 	ctx context.Context,
 	req *connect.Request[usersv1.ListUsersRequest],
 ) (*connect.Response[usersv1.ListUsersResponse], error) {
-	return s.Client.ListUsers(ctx, req)
+	res, err := s.Client.ListUsers(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return connect.NewResponse(res.Msg), nil
 }
 
 func (s *UsersServer) CreateUser(ctx context.Context, req *connect.Request[usersv1.CreateUserRequest]) (*connect.Response[usersv1.User], error) {
-	return s.Client.CreateUser(ctx, req)
+	res, err := s.Client.CreateUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return connect.NewResponse(res.Msg), nil
 }

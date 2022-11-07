@@ -12,7 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	try {
 		const user = await userClient.getUser({ authToken })
 		console.debug('Authenticated request: ', user.id)
-		event.locals.user_id = user.id
+		event.locals.userId = user.id
 		// eslint-disable-next-line no-empty
 	} catch (error) {}
 

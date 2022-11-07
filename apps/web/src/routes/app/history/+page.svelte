@@ -1,39 +1,43 @@
 <script lang="ts">
 	import TrackHistoryList from './TrackHistoryList.svelte'
 	import type { PageData } from './$types.js'
-	import type { CursorPaginatedResult } from '$lib/service/pagination.js'
-	import type { TrackHistory } from '$lib/service/track-history/index.js'
+	import { onMount } from 'svelte'
+	import { genresClient, trackHistoryClient } from '../../../lib/api.js'
+	import type { Genre } from '@spotimy/api-web/music/genres/v1/genre_pb.js'
+	import type { TrackHistoryEntry } from '@spotimy/api-web/music/tracks/v1/history_pb.js'
 
 	export let data: PageData
 
-	let { history, next_page_token } = data
-	const { genres } = data
+	const { userId } = data
 
-	async function loadMore() {
-		const url = new URL('/api/history', window.location.toString())
-		url.searchParams.set('page_token', next_page_token)
-		url.searchParams.set('limit', '20')
+	// let { history, next_page_token } = data
+	// const { genres } = data
 
-		console.debug(`Get request to ${url.toString()}`)
+	let genres: Genre[] = []
+	let history: TrackHistoryEntry[] = []
 
-		const response = await fetch(url.toString(), {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json'
-			}
+	onMount(async () => {
+		const genreResponse = await genresClient.listGenres({})
+		genres = genreResponse.genres
+
+		const trackHistoryResponse = await trackHistoryClient.listTrackHistory({
+			userId: userId
 		})
-
-		const data = (await response.json()) as CursorPaginatedResult<TrackHistory>
-		history = [...history, ...data.results]
-		next_page_token = data.next_page_token
-	}
+		history = trackHistoryResponse.entries
+		console.debug(`fetched ${history.length} track history entries`)
+	})
 </script>
 
 <h2>History</h2>
-<p>{next_page_token}</p>
+<ul>
+	{#each history as entry}
+		<li>{entry.track?.name}</li>
+	{/each}
+</ul>
 
-{#if history.length > 0}
-	<TrackHistoryList {history} {genres} />
-
-	<button on:click={loadMore}>Load more...</button>
-{/if}
+<h2>Genres</h2>
+<ul>
+	{#each genres as genre}
+		<li>{genre.name}</li>
+	{/each}
+</ul>

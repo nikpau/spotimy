@@ -39,5 +39,9 @@ func (s *TracksServer) ListTracks(
 	ctx context.Context,
 	req *connect.Request[tracksv1.ListTracksRequest],
 ) (*connect.Response[tracksv1.ListTracksResponse], error) {
-	return s.Client.ListTracks(ctx, req)
+	res, err := s.Client.ListTracks(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return connect.NewResponse(res.Msg), nil
 }

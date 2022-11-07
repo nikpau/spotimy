@@ -12,8 +12,10 @@ type Config struct {
 
 // Config to connect to all external services.
 type ServicesConfig struct {
-	Artists ServiceConnectionConfig
-	Users   ServiceConnectionConfig
+	Artists      ServiceConnectionConfig
+	Users        ServiceConnectionConfig
+	TrackHistory ServiceConnectionConfig
+	Genres       ServiceConnectionConfig
 }
 
 // Information needed to successfully connect to a service.

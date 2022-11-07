@@ -23,6 +23,14 @@ func main() {
 				Host: "localhost",
 				Port: 50010,
 			},
+			Genres: config.ServiceConnectionConfig{
+				Host: "localhost",
+				Port: 50010,
+			},
+			TrackHistory: config.ServiceConnectionConfig{
+				Host: "localhost",
+				Port: 50010,
+			},
 			Users: config.ServiceConnectionConfig{
 				Host: "localhost",
 				Port: 50012,
@@ -37,6 +45,8 @@ func main() {
 	components := []api.Component{
 		music.RegisterArtistComponent(config.Services.Artists.URL(), httpClient),
 		user.RegisterUserComponent(config.Services.Users.URL(), httpClient),
+		music.RegisterGenreComponent(config.Services.Genres.URL(), httpClient),
+		music.RegisterTrackHistoryComponent(config.Services.TrackHistory.URL(), httpClient),
 	}
 
 	// Register all components.
