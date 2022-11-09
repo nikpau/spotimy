@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "spotimy_scraper"
+version = "0.0.0"
+description = ""
+authors = ["Nick Lehmann <nick@lehmann.sh>"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+spotimy_client = { path = "../../clients/python", develop = true }
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

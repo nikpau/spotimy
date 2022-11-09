@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package scraper.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/scraper/v1;scraper";
+
+service ScraperService {
+  rpc Scrape(ScrapeRequest) returns (ScrapeResponse);
+}
+
+message ScrapeRequest {
+  string user_id = 1;
+}
+
+message ScrapeResponse {
+  string content = 1;
+}

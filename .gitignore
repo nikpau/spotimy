@@ -1,3 +1,10 @@
+# Build artifacts from proto
+api/gen
+
+# Sqlite databases
+**/*.db
+**/*.db-journal
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -149,3 +156,5 @@ dmypy.json
 
 # User land
 out/
+
+node_modules

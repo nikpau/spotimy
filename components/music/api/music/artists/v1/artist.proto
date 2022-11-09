@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package music.artists.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/music/artists/v1;artists";
+
+service ArtistService {
+  rpc ListArtists (ListArtistsRequest) returns (ListArtistsResponse);
+}
+
+message Artist {
+  string id = 1;
+  string name = 2;
+
+  repeated Image images = 3;
+
+  ArtistCounts counts = 4;
+}
+
+message Image {
+  string url = 1;
+  int32 width = 2;
+  int32 height = 3;
+}
+
+message ArtistCounts {
+  int32 in_liked_songs = 1;
+  int32 in_playlists = 2;
+}
+
+message ListArtistsRequest {
+  string query = 1;
+}
+message ListArtistsResponse {
+  repeated Artist artists = 1;
+}

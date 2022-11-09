@@ -1,0 +1,20 @@
+
+syntax = "proto3";
+
+package music.genres.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/music/genres/v1;genres";
+
+service GenresService {
+  rpc ListGenres(ListGenresRequest) returns (ListGenresResponse) {}
+}
+
+message Genre {
+  string name = 1;
+}
+
+message ListGenresRequest {}
+
+message ListGenresResponse {
+  repeated Genre genres = 1;
+}

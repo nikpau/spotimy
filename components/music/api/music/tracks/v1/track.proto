@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package music.tracks.v1;
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/music/tracks/v1;tracks";
+
+service TrackService {
+  rpc ListTracks (ListTracksRequest) returns (ListTracksResponse);
+}
+
+message Track {
+  uint64 id = 1;
+  string name = 2;
+  string artist_id = 3;
+  int32 bpm = 4;
+  repeated string genres = 5;
+}
+
+message ListTracksRequest {
+  repeated string ids = 1;
+}
+
+message ListTracksResponse {
+  repeated Track tracks = 1;
+}

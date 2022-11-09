@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package music.tracks.v1;
+
+import "music/tracks/v1/track.proto";
+
+option go_package = "github.com/nikpau/spotimy/apps/gateway/def/music/tracks/v1;tracks";
+
+service TrackHistoryService {
+  rpc ListTrackHistory (ListTrackHistoryRequest) returns (ListTrackHistoryResponse) {};
+}
+
+message TrackHistoryEntry {
+  music.tracks.v1.Track track = 1;
+  int64 timestamp = 2;
+}
+
+message ListTrackHistoryRequest {
+  uint64 user_id = 1;
+
+  int64 start = 2;
+  int64 end = 3;
+
+  int32 limit = 4;
+  string page_token = 5;
+}
+
+message ListTrackHistoryResponse {
+  repeated TrackHistoryEntry entries = 1;
+
+  string next_page_token = 2;
+}
