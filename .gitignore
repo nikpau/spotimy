@@ -3,6 +3,7 @@ api/gen
 
 # Sqlite databases
 **/*.db
+**/*.db-journal
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
